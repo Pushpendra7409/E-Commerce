@@ -3,7 +3,6 @@ import Nav from './Nav';
 import { Link, useLocation } from 'react-router-dom';
 import { ProductContext } from '../utils/Context';
 import Loading from './Loading';
-import axios from '../utils/axios';
 
 const Home = () => {
   const [products] = useContext(ProductContext, []);
@@ -14,20 +13,13 @@ const Home = () => {
 
   const [filteredProducts, setFilteredProducts] = useState(null);
 
-  const getProductsByCategory = async () => {
-    try {
-      const { data } = await axios.get(`/products/category/${category}`);
-      setFilteredProducts(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
-    if (!category || category === "undefined") {
-      setFilteredProducts(products); // Show all products if no category is selected
+    // If no category is selected, show all products
+    if (!category || category === "") {
+      setFilteredProducts(products);
     } else {
-      getProductsByCategory();
+      // Filter products by category
+      setFilteredProducts(products.filter(p => p.category === category));
     }
   }, [category, products]);
 

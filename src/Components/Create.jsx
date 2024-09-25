@@ -13,32 +13,39 @@ const Create = () => {
   const [description, setdescription] = useState("");
 
   const AddProductHandler = (e) => {
-      e.preventDefault();
-
-      if (
-        title.trim().length < 5 ||
-        image.trim().length < 5 ||
-        category.trim().length < 5 ||
-        price.trim().length < 1 ||
-        description.trim().length < 5
-      ) {
-        alert("The minimum length does not meet the requirements");
-        return;
-      }
-
-      const product = {
-        id:nanoid(),
-        title,
-        image,
-        category,
-        price,
-        description
-      };
-
-      setproducts([...products, product]);
-      navigate("/");  
-      // toast.success("New product added");
+    e.preventDefault();
+  
+    if (
+      title.trim().length < 5 ||
+      image.trim().length < 5 ||
+      category.trim().length < 5 ||
+      price.trim().length < 1 ||
+      description.trim().length < 5
+    ) {
+      alert("The minimum length does not meet the requirements");
+      return;
+    }
+  
+    const product = {
+      id: nanoid(),
+      title,
+      image,
+      category,
+      price,
+      description
+    };
+  
+    // Add the new product to the product array
+    const updatedProducts = [...products, product];
+    
+    // Update the state and then save to localStorage
+    setproducts(updatedProducts);
+    localStorage.setItem("products", JSON.stringify(updatedProducts));
+  
+    navigate("/");  
+    // toast.success("New product added");
   };
+  
 
   return (
     <form onSubmit={AddProductHandler} className='flex flex-col items-center p-[5%] w-screen h-screen'>
